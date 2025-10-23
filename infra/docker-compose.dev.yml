@@ -1,0 +1,20 @@
+services:
+  app-app-service:
+    build:
+      context: ..                # ✅ 루트
+      dockerfile: infra/dockerfile/app-service.Dockerfile
+    pull_policy: never
+
+
+  app-app-media:
+    build:
+      context: ..                # ✅ 루트
+      dockerfile: infra/dockerfile/app-media.Dockerfile
+    pull_policy: never
+
+
+  app-app-auth:
+    build:
+      context: ..                # ✅ 루트
+      dockerfile: infra/dockerfile/app-auth.Dockerfile
+    pull_policy: never

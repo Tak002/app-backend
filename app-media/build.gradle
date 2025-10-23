@@ -15,3 +15,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named('jar') { enabled = false }
+tasks.named('bootJar') {
+	enabled = true
+	archiveFileName = 'app-media.jar'
+}
