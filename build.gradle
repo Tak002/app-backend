@@ -1,0 +1,48 @@
+plugins {
+    id 'org.springframework.boot' version '3.5.7' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
+    id 'java'
+}
+
+allprojects {
+    group = 'com.tak'
+    version = '0.1.0'
+    repositories { mavenCentral() }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
+
+    // Spring Boot BOM으로 버전 정렬
+    dependencyManagement {
+        imports { mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.7" }
+    }
+
+    configurations {
+        compileOnly { extendsFrom annotationProcessor }
+        testCompileOnly { extendsFrom testAnnotationProcessor }
+    }
+
+    dependencies {
+        // Lombok
+        compileOnly 'org.projectlombok:lombok:1.18.34'
+        annotationProcessor 'org.projectlombok:lombok:1.18.34'
+        testCompileOnly 'org.projectlombok:lombok:1.18.34'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+        // Jackson
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    // 메서드/컨트롤러 파라미터 이름 유지
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += ['-parameters']
+    }
+    test { useJUnitPlatform() }
+}
